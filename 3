@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Search App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Movie Search App</h1>
+  </header>
+  <main>
+    <input type="text" id="searchInput" placeholder="Enter a movie title...">
+    <button id="searchButton">Search</button>
+    <div id="movieDetails"></div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
+/////////////////////////////////////////////////////////////////
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+#searchInput {
+  padding: 5px;
+}
+
+#searchButton {
+  padding: 5px 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#movieDetails {
+  margin-top: 20px;
+}
+/////////////////////////////////////
+const apiKey = 'YOUR_OMDB_API_KEY'; // Replace with your actual OMDB API key
+
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const movieDetails = document.getElementById('movieDetails');
+
+searchButton.addEventListener('click', searchMovie);
+
+function searchMovie() {
+  const searchTerm = searchInput.value.trim();
+  if (!searchTerm) {
+    alert('Please enter a movie title.');
+    return;
+  }
+
+  const apiUrl = `https://www.omdbapi.com/?apikey=${apiKey}&t=${encodeURIComponent(searchTerm)}`;
+  
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (data.Response === 'False') {
+        displayError('Movie not found. Please try another title.');
+      } else {
+        displayMovie(data);
+      }
+    })
+    .catch(error => {
+      displayError('An error occurred while fetching data. Please try again later.');
+      console.error('Error:', error);
+    });
+}
+
+function displayMovie(movie) {
+  movieDetails.innerHTML = `
+    <h2>${movie.Title}</h2>
+    <p><strong>Released:</strong> ${movie.Year}</p>
+    <p><strong>Director:</strong> ${movie.Director}</p>
+    <p><strong>Plot:</strong> ${movie.Plot}</p>
+    <img src="${movie.Poster}" alt="${movie.Title} Poster">
+  `;
+}
+
+function displayError(errorMessage) {
+  movieDetails.innerHTML = `<p class="error">${errorMessage}</p>`;
+}
+/////////////////////////////////////////////////
+const apiKey = 'YOUR_OMDB_API_KEY'; // Replace with your actual OMDB API key
+
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const movieDetails = document.getElementById('movieDetails');
+
+searchButton.addEventListener('click', searchMovie);
+
+function searchMovie() {
+  const searchTerm = searchInput.value.trim();
+  if (!searchTerm) {
+    alert('Please enter a movie title.');
+    return;
+  }
+
+  const apiUrl = `https://www.omdbapi.com/?apikey=${apiKey}&t=${encodeURIComponent(searchTerm)}`;
+  
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (data.Response === 'False') {
+        displayError('Movie not found. Please try another title.');
+      } else {
+        displayMovie(data);
+      }
+    })
+    .catch(error => {
+      displayError('An error occurred while fetching data. Please try again later.');
+      console.error('Error:', error);
+    });
+}
+
+function displayMovie(movie) {
+  movieDetails.innerHTML = `
+    <h2>${movie.Title}</h2>
+    <p><strong>Released:</strong> ${movie.Year}</p>
+    <p><strong>Director:</strong> ${movie.Director}</p>
+    <p><strong>Plot:</strong> ${movie.Plot}</p>
+    <img src="${movie.Poster}" alt="${movie.Title} Poster">
+  `;
+}
+
+function displayError(errorMessage) {
+  movieDetails.innerHTML = `<p class="error">${errorMessage}</p>`;
+}
