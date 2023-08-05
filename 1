@@ -1,0 +1,485 @@
+1<!DOCTYPE html>
+<html>
+<head>
+  <title>PWSkills Blog</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>PWSkills Blog</h1>
+    <span id="addBlogBtn">+</span>
+  </header>
+  <section id="blogList">
+    <!-- Display existing blogs here -->
+  </section>
+
+  <!-- Add Blog Modal -->
+  <div id="addBlogModal">
+    <form id="addBlogForm">
+      <label for="blogTitle">Title:</label>
+      <input type="text" id="blogTitle" required>
+      
+      <label for="blogPoster">Poster:</label>
+      <input type="text" id="blogPoster" required>
+      
+      <label for="blogDescription">Description:</label>
+      <textarea id="blogDescription" required></textarea>
+      
+      <label for="blogContent">Content:</label>
+      <textarea id="blogContent" required></textarea>
+      
+      <input type="submit" value="Add Blog">
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+}
+
+#addBlogBtn {
+  font-size: 24px;
+  cursor: pointer;
+  float: right;
+  margin-top: -30px;
+  margin-right: 20px;
+}
+
+#blogList {
+  padding: 20px;
+}
+
+.blog {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#addBlogModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  width: 400px;
+  padding: 20px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/////////////////////////////////////////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", () => {
+  const addBlogBtn = document.getElementById("addBlogBtn");
+  const addBlogModal = document.getElementById("addBlogModal");
+  const addBlogForm = document.getElementById("addBlogForm");
+  const blogList = document.getElementById("blogList");
+
+  // Retrieve blogs from LocalStorage or initialize an empty array
+  let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+
+  // Function to display existing blogs
+  function displayBlogs() {
+    blogList.innerHTML = "";
+    blogs.forEach((blog, index) => {
+      const blogElement = document.createElement("div");
+      blogElement.classList.add("blog");
+      blogElement.innerHTML = `
+        <h3>${blog.title}</h3>
+        <p><strong>Posted by:</strong> ${blog.poster}</p>
+        <p>${blog.description}</p>
+      `;
+      blogElement.addEventListener("click", () => {
+        viewBlog(index);
+      });
+      blogList.appendChild(blogElement);
+    });
+  }
+
+  // Function to open the "Add Blog" modal
+  function openAddBlogModal() {
+    addBlogModal.style.display = "block";
+  }
+
+  // Function to close the "Add Blog" modal
+  function closeAddBlogModal() {
+    addBlogModal.style.display = "none";
+    addBlogForm.reset();
+  }
+
+  // Function to add a new blog
+  function addBlog(event) {
+    event.preventDefault();
+    const title = document.getElementById("blogTitle").value;
+    const poster = document.getElementById("blogPoster").value;
+    const description = document.getElementById("blogDescription").value;
+    const content = document.getElementById("blogContent").value;
+
+    const newBlog = {
+      title: title,
+      poster: poster,
+      description: description,
+      content: content
+    };
+
+    blogs.push(newBlog);
+    localStorage.setItem("blogs", JSON.stringify(blogs));
+    closeAddBlogModal();
+    displayBlogs();
+  }
+
+  // Function to view the full content of a blog
+  function viewBlog(index) {
+    const blog = blogs[index];
+    const blogContent = `
+      <h2>${blog.title}</h2>
+      <p><strong>Posted by:</strong> ${blog.poster}</p>
+      <p>${blog.content}</p>
+    `;
+    alert(blogContent);
+  }
+
+  // Event listeners
+  addBlogBtn.addEventListener("click", openAddBlogModal);
+  addBlogForm.addEventListener("submit", addBlog);
+
+  // Initial display of blogs
+  displayBlogs();
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const addBlogBtn = document.getElementById("addBlogBtn");
+  const addBlogModal = document.getElementById("addBlogModal");
+  const addBlogForm = document.getElementById("addBlogForm");
+  const blogList = document.getElementById("blogList");
+
+  // Retrieve blogs from LocalStorage or initialize an empty array
+  let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+
+  // Function to display existing blogs
+  function displayBlogs() {
+    blogList.innerHTML = "";
+    blogs.forEach((blog, index) => {
+      const blogElement = document.createElement("div");
+      blogElement.classList.add("blog");
+      blogElement.innerHTML = `
+        <h3>${blog.title}</h3>
+        <p><strong>Posted by:</strong> ${blog.poster}</p>
+        <p>${blog.description}</p>
+      `;
+      blogElement.addEventListener("click", () => {
+        viewBlog(index);
+      });
+      blogList.appendChild(blogElement);
+    });
+  }
+
+  // Function to open the "Add Blog" modal
+  function openAddBlogModal() {
+    addBlogModal.style.display = "block";
+  }
+
+  // Function to close the "Add Blog" modal
+  function closeAddBlogModal() {
+    addBlogModal.style.display = "none";
+    addBlogForm.reset();
+  }
+
+  // Function to add a new blog
+  function addBlog(event) {
+    event.preventDefault();
+    const title = document.getElementById("blogTitle").value;
+    const poster = document.getElementById("blogPoster").value;
+    const description = document.getElementById("blogDescription").value;
+    const content = document.getElementById("blogContent").value;
+
+    const newBlog = {
+      title: title,
+      poster: poster,
+      description: description,
+      content: content
+    };
+
+    blogs.push(newBlog);
+    localStorage.setItem("blogs", JSON.stringify(blogs));
+    closeAddBlogModal();
+    displayBlogs();
+  }
+
+  // Function to view the full content of a blog
+  function viewBlog(index) {
+    const blog = blogs[index];
+    const blogContent = `
+      <h2>${blog.title}</h2>
+      <p><strong>Posted by:</strong> ${blog.poster}</p>
+      <p>${blog.content}</p>
+    `;
+    alert(blogContent);
+  }
+
+  // Event listeners
+  addBlogBtn.addEventListener("click", openAddBlogModal);
+  addBlogForm.addEventListener("submit", addBlog);
+
+  // Initial display of blogs
+  displayBlogs();
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const addBlogBtn = document.getElementById("addBlogBtn");
+  const addBlogModal = document.getElementById("addBlogModal");
+  const addBlogForm = document.getElementById("addBlogForm");
+  const blogList = document.getElementById("blogList");
+
+  // Retrieve blogs from LocalStorage or initialize an empty array
+  let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+
+  // Function to display existing blogs
+  function displayBlogs() {
+    blogList.innerHTML = "";
+    blogs.forEach((blog, index) => {
+      const blogElement = document.createElement("div");
+      blogElement.classList.add("blog");
+      blogElement.innerHTML = `
+        <h3>${blog.title}</h3>
+        <p><strong>Posted by:</strong> ${blog.poster}</p>
+        <p>${blog.description}</p>
+      `;
+      blogElement.addEventListener("click", () => {
+        viewBlog(index);
+      });
+      blogList.appendChild(blogElement);
+    });
+  }
+
+  // Function to open the "Add Blog" modal
+  function openAddBlogModal() {
+    addBlogModal.style.display = "block";
+  }
+
+  // Function to close the "Add Blog" modal
+  function closeAddBlogModal() {
+    addBlogModal.style.display = "none";
+    addBlogForm.reset();
+  }
+
+  // Function to add a new blog
+  function addBlog(event) {
+    event.preventDefault();
+    const title = document.getElementById("blogTitle").value;
+    const poster = document.getElementById("blogPoster").value;
+    const description = document.getElementById("blogDescription").value;
+    const content = document.getElementById("blogContent").value;
+
+    const newBlog = {
+      title: title,
+      poster: poster,
+      description: description,
+      content: content
+    };
+
+    blogs.push(newBlog);
+    localStorage.setItem("blogs", JSON.stringify(blogs));
+    closeAddBlogModal();
+    displayBlogs();
+  }
+
+  // Function to view the full content of a blog
+  function viewBlog(index) {
+    const blog = blogs[index];
+    const blogContent = `
+      <h2>${blog.title}</h2>
+      <p><strong>Posted by:</strong> ${blog.poster}</p>
+      <p>${blog.content}</p>
+    `;
+    alert(blogContent);
+  }
+
+  // Event listeners
+  addBlogBtn.addEventListener("click", openAddBlogModal);
+  addBlogForm.addEventListener("submit", addBlog);
+
+  // Initial display of blogs
+  displayBlogs();
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const addBlogBtn = document.getElementById("addBlogBtn");
+  const addBlogModal = document.getElementById("addBlogModal");
+  const addBlogForm = document.getElementById("addBlogForm");
+  const blogList = document.getElementById("blogList");
+
+  // Retrieve blogs from LocalStorage or initialize an empty array
+  let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+
+  // Function to display existing blogs
+  function displayBlogs() {
+    blogList.innerHTML = "";
+    blogs.forEach((blog, index) => {
+      const blogElement = document.createElement("div");
+      blogElement.classList.add("blog");
+      blogElement.innerHTML = `
+        <h3>${blog.title}</h3>
+        <p><strong>Posted by:</strong> ${blog.poster}</p>
+        <p>${blog.description}</p>
+      `;
+      blogElement.addEventListener("click", () => {
+        viewBlog(index);
+      });
+      blogList.appendChild(blogElement);
+    });
+  }
+
+  // Function to open the "Add Blog" modal
+  function openAddBlogModal() {
+    addBlogModal.style.display = "block";
+  }
+
+  // Function to close the "Add Blog" modal
+  function closeAddBlogModal() {
+    addBlogModal.style.display = "none";
+    addBlogForm.reset();
+  }
+
+  // Function to add a new blog
+  function addBlog(event) {
+    event.preventDefault();
+    const title = document.getElementById("blogTitle").value;
+    const poster = document.getElementById("blogPoster").value;
+    const description = document.getElementById("blogDescription").value;
+    const content = document.getElementById("blogContent").value;
+
+    const newBlog = {
+      title: title,
+      poster: poster,
+      description: description,
+      content: content
+    };
+
+    blogs.push(newBlog);
+    localStorage.setItem("blogs", JSON.stringify(blogs));
+    closeAddBlogModal();
+    displayBlogs();
+  }
+
+  // Function to view the full content of a blog
+  function viewBlog(index) {
+    const blog = blogs[index];
+    const blogContent = `
+      <h2>${blog.title}</h2>
+      <p><strong>Posted by:</strong> ${blog.poster}</p>
+      <p>${blog.content}</p>
+    `;
+    alert(blogContent);
+  }
+
+  // Event listeners
+  addBlogBtn.addEventListener("click", openAddBlogModal);
+  addBlogForm.addEventListener("submit", addBlog);
+
+  // Initial display of blogs
+  displayBlogs();
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const addBlogBtn = document.getElementById("addBlogBtn");
+  const addBlogModal = document.getElementById("addBlogModal");
+  const addBlogForm = document.getElementById("addBlogForm");
+  const blogList = document.getElementById("blogList");
+
+  // Retrieve blogs from LocalStorage or initialize an empty array
+  let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+
+  // Function to display existing blogs
+  function displayBlogs() {
+    blogList.innerHTML = "";
+    blogs.forEach((blog, index) => {
+      const blogElement = document.createElement("div");
+      blogElement.classList.add("blog");
+      blogElement.innerHTML = `
+        <h3>${blog.title}</h3>
+        <p><strong>Posted by:</strong> ${blog.poster}</p>
+        <p>${blog.description}</p>
+      `;
+      blogElement.addEventListener("click", () => {
+        viewBlog(index);
+      });
+      blogList.appendChild(blogElement);
+    });
+  }
+
+  // Function to open the "Add Blog" modal
+  function openAddBlogModal() {
+    addBlogModal.style.display = "block";
+  }
+
+  // Function to close the "Add Blog" modal
+  function closeAddBlogModal() {
+    addBlogModal.style.display = "none";
+    addBlogForm.reset();
+  }
+
+  // Function to add a new blog
+  function addBlog(event) {
+    event.preventDefault();
+    const title = document.getElementById("blogTitle").value;
+    const poster = document.getElementById("blogPoster").value;
+    const description = document.getElementById("blogDescription").value;
+    const content = document.getElementById("blogContent").value;
+
+    const newBlog = {
+      title: title,
+      poster: poster,
+      description: description,
+      content: content
+    };
+
+    blogs.push(newBlog);
+    localStorage.setItem("blogs", JSON.stringify(blogs));
+    closeAddBlogModal();
+    displayBlogs();
+  }
+
+  // Function to view the full content of a blog
+  function viewBlog(index) {
+    const blog = blogs[index];
+    const blogContent = `
+      <h2>${blog.title}</h2>
+      <p><strong>Posted by:</strong> ${blog.poster}</p>
+      <p>${blog.content}</p>
+    `;
+    alert(blogContent);
+  }
+
+  // Event listeners
+  addBlogBtn.addEventListener("click", openAddBlogModal);
+  addBlogForm.addEventListener("submit", addBlog);
+
+  // Initial display of blogs
+  displayBlogs();
+});
